@@ -1,0 +1,38 @@
+---
+- hosts: redservers
+  remote_user: palm
+  tasks:
+    - name: Update cache
+      apt: update_cache=yes
+      become: true
+
+    - name: Install packages
+      apt: name={{ item }} state=latest
+      with_items:
+        - git
+        - python3.5-dev
+        - screen
+        - build-essential
+        - libssl-dev
+        - libffi-dev
+        - ffmpeg
+        - libopus-dev
+        - unzip
+        - python3-pip
+      become: true
+
+    - name: Install discord.py
+      command: /usr/bin/pip3 install -U git+https://github.com/Rapptz/discord.py@master#egg=discord.py[voice]
+      become: true
+
+    - name: Install pip packages
+      command: /usr/bin/pip3 install {{ item }}
+      with_items:
+        - youtube_dl
+        - imgurpython
+
+    - name: Download Red
+      command: /usr/bin/git clone -b develop --single-branch https://github.com/Twentysix26/Red-DiscordBot.git Red-DiscordBot
+
+    - name: Start Red
+      command: bash -lc "cd Red-DiscordBot && screen -dmS red python3.5 red.py"
