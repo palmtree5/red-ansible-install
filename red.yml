@@ -34,5 +34,8 @@
     - name: Download Red
       command: /usr/bin/git clone -b develop --single-branch https://github.com/Twentysix26/Red-DiscordBot.git Red-DiscordBot
 
+    - name: Configure Red
+      command: bash -lc "cd Red-DiscordBot && python3.5 redsetup.py && cd .."
+
     - name: Start Red
-      command: bash -lc "cd Red-DiscordBot && screen -dmS red python3.5 red.py"
+      service: name=red state=started enabled=yes
