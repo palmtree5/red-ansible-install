@@ -19,6 +19,7 @@
         - libopus-dev
         - unzip
         - python3-pip
+        - wget
       become: true
 
     - name: Install discord.py
@@ -34,6 +35,9 @@
     - name: Download Red
       command: /usr/bin/git clone -b develop --single-branch https://github.com/Twentysix26/Red-DiscordBot.git Red-DiscordBot
 
+    - name: Get config script
+      command: bash -lc "cd Red-DiscordBot && wget https://raw.githubusercontent.com/palmtree5/red-ansible-install/master/redsetup.py && cd .."
+      
     - name: Configure Red
       command: bash -lc "cd Red-DiscordBot && python3.5 redsetup.py && cd .."
 
